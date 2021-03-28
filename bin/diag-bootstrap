@@ -4,6 +4,7 @@ set -euo pipefail
 PACKAGES=(
   procps
   htop
+  iproute2
 )
 
 apt-get update
