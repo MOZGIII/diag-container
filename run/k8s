@@ -1,0 +1,18 @@
+#!/bin/bash
+set -euo pipefail
+
+DIAG_POD_NAME="${DIAG_POD_NAME:-"diag"}"
+DIAG_IMAGE_REPO="${DIAG_IMAGE_REPO:-"mozgiii/diag"}"
+DIAG_IMAGE_TAG="${DIAG_IMAGE_TAG:-"master"}"
+DIAG_IMAGE="${DIAG_IMAGE:-"$DIAG_IMAGE_REPO:$DIAG_IMAGE_TAG"}"
+
+exec kubectl run \
+  "$DIAG_POD_NAME" \
+  --rm -it \
+  --image "$DIAG_IMAGE" \
+  --overrides '{"spec":{"hostPID":true,"hostIPC":true,"hostNetwork":true}}' \
+  --privileged \
+  --restart Never \
+  --leave-stdin-open \
+  -- \
+  "$@"
